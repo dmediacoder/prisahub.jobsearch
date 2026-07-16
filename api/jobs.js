@@ -71,7 +71,10 @@ function parseNhs(html) {
 
     const idM  = href.match(/\/jobadvert\/([^?#]+)/);
     const id   = idM ? idM[1] : (jobs.length + '-' + title.slice(0, 15));
-    const band = getBand(title + ' ' + salary + ' ' + b.replace(/<[^>]+>/g, ' '));
+
+    // Extract band from ALL text in the block - catches explicit "Band 2" fields
+    const allBlockText = b.replace(/<[^>]+>/g, ' ');
+    const band = getBand(title + ' ' + salary + ' ' + allBlockText);
 
     jobs.push({
       id, title, organisation: org, location: loc,
@@ -117,8 +120,8 @@ const HDRS = {
   'Accept-Language': 'en-GB,en;q=0.9',
 };
 
-async function fetchPage(kw, loc, page, sal, ft) {
-  const ck = 'pg:' + kw + ':' + loc + ':' + page + ':' + sal + ':' + (ft?1:0);
+async function fetchPage(kw, loc, page, sal, ft, minBand) {
+  const ck = 'pg:' + kw + ':' + loc + ':' + page + ':' + sal + ':' + (ft?1:0) + ':' + (minBand||0);
   const hit = CACHE.get(ck);
   if (hit && Date.now() - hit.at < TTL) return hit.v;
 
@@ -132,6 +135,11 @@ async function fetchPage(kw, loc, page, sal, ft) {
   if (page > 1) p.set('page',           String(page));
   if (sal > 0)  p.set('salaryFrom',     String(sal));
   if (ft)       p.set('workingPattern', 'fullTime');
+  // Add band filter for support workers - blocks Band 2 at NHS Jobs source level
+  if (minBand && minBand >= 3) {
+    const bands = ['Band 3','Band 4','Band 5','Band 6','Band 7','Band 8a','Band 8b','Band 8c','Band 8d'];
+    bands.slice(minBand - 3).forEach(b => p.append('payBand', b));
+  }
 
   try {
     const r = await fetch('https://www.jobs.nhs.uk/candidate/search/results?' + p, {
@@ -161,8 +169,11 @@ function reject(job) {
   const sal = (job.salary       || '').toLowerCase();
   const all = t + ' ' + ct + ' ' + sal;
 
-  // Band 2 — all formats
-  if (/\bband\s*2\b/.test(all) || /\bband\s+two\b/.test(all)) return true;
+  // Band 2 — reject if explicitly stated anywhere
+  if (/\bband\s*2\b/.test(all))    return true;
+  if (/\bband\s+two\b/.test(all))  return true;
+  if (/\bafc\s*:?\s*band\s*2\b/.test(all)) return true;
+  // Parsed band number is 2 or below
   if (job.band !== undefined && job.band <= 2) return true;
 
   // Not permanent
@@ -197,7 +208,7 @@ function applyFilters(jobs, cat) {
 
 // ── MAIN FETCH LOOP ───────────────────────────────────────────
 async function getCategoryJobs(cat) {
-  const ck = 'cat:' + cat.id + ':v9';
+  const ck = 'cat:' + cat.id + ':v12';
   const hit = CACHE.get(ck);
   if (hit && Date.now() - hit.at < TTL) return hit.v;
 
@@ -206,7 +217,7 @@ async function getCategoryJobs(cat) {
 
   for (const kw of keywords) {
     for (let pg = 1; pg <= 5; pg++) {          // max 5 pages per keyword
-      const jobs = await fetchPage(kw, cat.loc || '', pg, cat.sal || 0, cat.ft || false);
+      const jobs = await fetchPage(kw, cat.loc || '', pg, cat.sal || 0, cat.ft || false, cat.minBand || 0);
       if (!jobs.length) break;
       let added = 0;
       for (const j of jobs) {
