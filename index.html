@@ -221,7 +221,7 @@ function render(){
     if(j.contractType)tgs+='<span class="tag t-perm">'+esc(j.contractType)+'</span>';
     if(j.closingDate) tgs+='<span class="tag t-close">Closes '+esc(j.closingDate)+'</span>';
     return '<div class="job-card">'
-      +'<div class="job-logo">'+EM[i%EM.length]+'</div>'
+      +'<div class="job-logo">'+((j.organisation||'N')[0].toUpperCase())+'</div>'
       +'<div class="job-body">'
         +'<div class="job-title">'+esc(j.title)+'</div>'
         +'<div class="job-org">'+esc(j.organisation||'NHS Trust')+'</div>'
