@@ -213,6 +213,14 @@ function reject(job) {
   if (t.includes('part-time'))     return true;
   if (wp.includes('flexible'))     return true;
 
+  // Internal only jobs
+  if (t.includes('internal only'))  return true;
+  if (t.includes('internal only'))  return true;
+  if (t.includes('(internal)'))     return true;
+  if (t.includes('[internal]'))     return true;
+  if (t.includes('* internal'))     return true;
+  if (t.includes('internal only*')) return true;
+
   return false;
 }
 
@@ -232,7 +240,7 @@ function applyFilters(jobs, cat) {
 
 // ── MAIN FETCH LOOP ───────────────────────────────────────────
 async function getCategoryJobs(cat) {
-  const ck = 'cat:' + cat.id + ':v23';
+  const ck = 'cat:' + cat.id + ':v24';
   const hit = CACHE.get(ck);
   if (hit && Date.now() - hit.at < TTL) return hit.v;
 
