@@ -264,7 +264,7 @@ function applyFilters(jobs, cat) {
 
 // ── MAIN FETCH LOOP ───────────────────────────────────────────
 async function getCategoryJobs(cat) {
-  const ck = 'cat:' + cat.id + ':v30';
+  const ck = 'cat:' + cat.id + ':v31';
   const hit = CACHE.get(ck);
   if (hit && Date.now() - hit.at < TTL) return hit.v;
 
@@ -731,13 +731,13 @@ const SW2_EXC   = ['support worker','healthcare assistant','admin','administrato
 const CATS = [
   {id:'admin-out', label:'Admin Outside London',          kw:ADMIN_KW, loc:'',exLoc:'london',  minBand:5,sal:32000,group:'Admin',          inc:ADMIN_INC,exc:ADMIN_EXC},
   {id:'admin-lon', label:'Admin in London',               kw:ADMIN_KW, loc:'London',            minBand:5,sal:32000,group:'Admin',          inc:ADMIN_INC,exc:ADMIN_EXC},
-  {id:'sw-out',    label:'Support Worker Outside London', kw:SW_KW,    loc:'',exLoc:'london',  minBand:3,sal:25000,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
-  {id:'sw-lon',    label:'Support Worker in London',      kw:SW_KW,    loc:'London',           minBand:3,sal:25000,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
-  {id:'sw-wm',     label:'Support Worker West Midlands',  kw:SW_KW,    loc:'West Midlands',    minBand:3,sal:25000,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
-  {id:'sw-wales',  label:'Support Worker in Wales',       kw:SW_KW,    loc:'Wales',            minBand:3,sal:25000,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
-  {id:'sw-manc',   label:'Support Worker Manchester',     kw:SW_KW,    loc:'Manchester',       minBand:3,sal:25000,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
-  {id:'sw-wy',     label:'Support Worker W Yorkshire',    kw:SW_KW,    loc:'Leeds',            minBand:3,sal:25000,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
-  {id:'sw-ey',     label:'Support Worker E Yorkshire',    kw:SW_KW,    loc:'Hull',             minBand:3,sal:25000,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
+  {id:'sw-out',    label:'Support Worker Outside London', kw:SW_KW,    loc:'',exLoc:'london',  minBand:3,sal:0,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
+  {id:'sw-lon',    label:'Support Worker in London',      kw:SW_KW,    loc:'London',           minBand:3,sal:0,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
+  {id:'sw-wm',     label:'Support Worker West Midlands',  kw:SW_KW,    loc:'West Midlands',    minBand:3,sal:0,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
+  {id:'sw-wales',  label:'Support Worker in Wales',       kw:SW_KW,    loc:'Wales',            minBand:3,sal:0,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
+  {id:'sw-manc',   label:'Support Worker Manchester',     kw:SW_KW,    loc:'Manchester',       minBand:3,sal:0,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
+  {id:'sw-wy',     label:'Support Worker W Yorkshire',    kw:SW_KW,    loc:'Leeds',            minBand:3,sal:0,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
+  {id:'sw-ey',     label:'Support Worker E Yorkshire',    kw:SW_KW,    loc:'Hull',             minBand:3,sal:0,ft:true,group:'Support Worker',inc:SW_INC,exc:SW_EXC},
   {id:'nurse',     label:'Staff Nurse',                   kw:['staff nurse','registered nurse'],                             loc:'',minBand:5,maxBand:5,sal:29970,group:'Nursing',  inc:NURSE_INC,exc:NURSE_EXC},
   {id:'mh-nurse',  label:'Mental Health Nurse',           kw:['mental health nurse','psychiatric nurse','rmn'],              loc:'',group:'Nursing',  inc:MH_INC,  exc:MH_EXC},
   {id:'res-nurse', label:'Research Nurse',                kw:['research nurse','clinical research nurse'],                   loc:'',group:'Nursing',  inc:RN_INC},
