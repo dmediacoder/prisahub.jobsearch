@@ -251,7 +251,7 @@ function applyFilters(jobs, cat) {
 
 // ── MAIN FETCH LOOP ───────────────────────────────────────────
 async function getCategoryJobs(cat) {
-  const ck = 'cat:' + cat.id + ':v34';
+  const ck = 'cat:' + cat.id + ':v35';
   const hit = CACHE.get(ck);
   if (hit && Date.now() - hit.at < TTL) return hit.v;
 
@@ -259,7 +259,7 @@ async function getCategoryJobs(cat) {
   const seen = new Set(), all = [];
 
   for (const kw of keywords) {
-    for (let pg = 1; pg <= 5; pg++) {          // max 5 pages per keyword
+    for (let pg = 1; pg <= 15; pg++) {         // max 15 pages per keyword
       const jobs = await fetchPage(kw, cat.loc || '', pg, cat.sal || 0, cat.ft || false, cat.minBand || 0);
       if (!jobs.length) break;
       let added = 0;
