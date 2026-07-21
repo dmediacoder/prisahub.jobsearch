@@ -130,8 +130,8 @@ const HDRS = {
   'Accept-Language': 'en-GB,en;q=0.9',
 };
 
-async function fetchPage(kw, loc, page, sal, ft) {
-  const ck = 'pg:' + kw + ':' + loc + ':' + page + ':' + sal + ':' + (ft?1:0);
+async function fetchPage(kw, loc, page, sal, ft, minBand) {
+  const ck = 'pg:' + kw + ':' + loc + ':' + page + ':' + sal + ':' + (ft?1:0) + ':' + (minBand||0);
   const hit = CACHE.get(ck);
   if (hit && Date.now() - hit.at < TTL) return hit.v;
 
@@ -145,6 +145,13 @@ async function fetchPage(kw, loc, page, sal, ft) {
   if (page > 1) p.set('page',           String(page));
   if (sal > 0)  p.set('salaryFrom',     String(sal));
   if (ft)       p.set('workingPattern', 'fullTime');
+  // Add NHS band filters at source - blocks wrong bands before they reach us
+  if (minBand && minBand >= 3) {
+    const bands = ['BAND_03','BAND_04','BAND_05','BAND_06','BAND_07','BAND_08A','BAND_08B','BAND_08C','BAND_08D','BAND_09'];
+    for (const b of bands.slice(minBand - 3)) {
+      p.append('nhsPayGradeCode', b);
+    }
+  }
 
   try {
     const r = await fetch('https://www.jobs.nhs.uk/candidate/search/results?' + p, {
@@ -191,10 +198,10 @@ function reject(job) {
   // This catches Band 2 jobs that don't mention band in title
   if (job.salary) {
     const salNums = job.salary.match(/£([\d,]+)/g);
-    if (salNums) {
+    if (salNums && salNums.length > 0) {
       const amounts = salNums.map(s => parseInt(s.replace(/[£,]/g,'')));
       const maxSal = Math.max(...amounts);
-      if (maxSal < 27597) return true; // Below Band 3 range - reject
+      if (maxSal <= 27596) return true; // Band 2 max is £27,596 - reject
     }
   }
 
@@ -257,7 +264,7 @@ function applyFilters(jobs, cat) {
 
 // ── MAIN FETCH LOOP ───────────────────────────────────────────
 async function getCategoryJobs(cat) {
-  const ck = 'cat:' + cat.id + ':v28';
+  const ck = 'cat:' + cat.id + ':v30';
   const hit = CACHE.get(ck);
   if (hit && Date.now() - hit.at < TTL) return hit.v;
 
@@ -266,7 +273,7 @@ async function getCategoryJobs(cat) {
 
   for (const kw of keywords) {
     for (let pg = 1; pg <= 5; pg++) {          // max 5 pages per keyword
-      const jobs = await fetchPage(kw, cat.loc || '', pg, cat.sal || 0, cat.ft || false);
+      const jobs = await fetchPage(kw, cat.loc || '', pg, cat.sal || 0, cat.ft || false, cat.minBand || 0);
       if (!jobs.length) break;
       let added = 0;
       for (const j of jobs) {
