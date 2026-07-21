@@ -237,6 +237,21 @@ function render(){
       +'</div>'
     +'</div>';
   }).join('');
+  el.querySelectorAll('.cp-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      navigator.clipboard.writeText(b.dataset.url).then(function(){
+        b.textContent='Copied!';b.style.background='#22c55e';b.style.color='#fff';b.style.borderColor='#22c55e';
+        setTimeout(function(){b.textContent='Copy Link';b.style.background='';b.style.color='';b.style.borderColor='';},2000);
+      }).catch(function(){
+        // Fallback for older browsers
+        var ta=document.createElement('textarea');
+        ta.value=b.dataset.url;document.body.appendChild(ta);ta.select();
+        document.execCommand('copy');document.body.removeChild(ta);
+        b.textContent='Copied!';b.style.background='#22c55e';b.style.color='#fff';
+        setTimeout(function(){b.textContent='Copy Link';b.style.background='';b.style.color='';},2000);
+      });
+    });
+  });
 
 }
 
