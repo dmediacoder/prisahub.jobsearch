@@ -166,7 +166,7 @@ async function load(pg){
     var cat=CATS.find(function(c){return c.id===_cat;})||CATS[0];
     var q='/api/jobs?page='+_pg+'&category='+encodeURIComponent(cat.label);
     if(_kw)q+='&keyword='+encodeURIComponent(_kw);
-    var r=await fetch(q);
+    var r=await fetch(q,{cache:'no-store'});
     if(!r.ok)throw new Error('HTTP '+r.status);
     var d=await r.json();
     _jobs=d.jobs||[];_pgs=d.pages||1;_tot=d.total||0;
@@ -237,14 +237,7 @@ function render(){
       +'</div>'
     +'</div>';
   }).join('');
-  el.querySelectorAll('.cp-btn').forEach(function(b){
-    b.addEventListener('click',function(){
-      navigator.clipboard.writeText(b.dataset.url).then(function(){
-        b.textContent='✓';b.classList.add('done');
-        setTimeout(function(){b.textContent='⊡';b.classList.remove('done');},2000);
-      });
-    });
-  });
+
 }
 
 function pgn(){
