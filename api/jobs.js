@@ -251,7 +251,7 @@ function applyFilters(jobs, cat) {
 
 // ── MAIN FETCH LOOP ───────────────────────────────────────────
 async function getCategoryJobs(cat) {
-  const ck = 'cat:' + cat.id + ':v35';
+  const ck = 'cat:' + cat.id + ':v36';
   const hit = CACHE.get(ck);
   if (hit && Date.now() - hit.at < TTL) return hit.v;
 
@@ -728,12 +728,12 @@ const CATS = [
   {id:'nurse',     label:'Staff Nurse',                   kw:['staff nurse','registered nurse'],                             loc:'',minBand:5,maxBand:5,sal:29970,group:'Nursing',  inc:NURSE_INC,exc:NURSE_EXC},
   {id:'mh-nurse',  label:'Mental Health Nurse',           kw:['mental health nurse','psychiatric nurse','rmn'],              loc:'',group:'Nursing',  inc:MH_INC,  exc:MH_EXC},
   {id:'res-nurse', label:'Research Nurse',                kw:['research nurse','clinical research nurse'],                   loc:'',group:'Nursing',  inc:RN_INC},
-  {id:'fellow',    label:'Clinical Fellow',               kw:['clinical fellow','foundation doctor','specialty registrar'],   loc:'',group:'Clinical', inc:FEL_INC},
+  {id:'fellow',    label:'Clinical Fellow',               kw:['clinical fellow','foundation doctor','trust doctor','fy1','fy2','st1','st2','st3'], loc:'',group:'Clinical', inc:FEL_INC, exc:['senior clinical fellow','consultant','registrar','specialist','associate specialist','sas doctor','specialty registrar']},
   {id:'coder',     label:'Clinical Coder',                kw:['clinical coder','clinical coding'],                           loc:'',group:'Clinical', inc:COD_INC},
   {id:'diet',      label:'Dietician',                     kw:['dietitian','dietician'],                                      loc:'',group:'Clinical', inc:DIET_INC},
   {id:'micro',     label:'Microbiology',                   kw:['microbiology','microbiologist'],                              loc:'',group:'Clinical', inc:MICRO_INC},
   {id:'phleb',     label:'Phlebotomist Leader',           kw:['phlebotomist','phlebotomy'],                                  loc:'',group:'Clinical', inc:PHLEB_INC},
-  {id:'res-asst',  label:'Research Assistant',            kw:['research assistant','research associate','trial coordinator'], loc:'',group:'Clinical', inc:RES_INC, exc:RES_EXC},
+  {id:'res-asst',  label:'Research Assistant',            kw:['research assistant','clinical research assistant','research support assistant','research administrator','research coordinator','clinical trials assistant','research practitioner','research support officer','research technician','study coordinator','research data assistant','patient recruitment assistant'], loc:'',group:'Clinical', inc:RES_INC, exc:RES_EXC},
   {id:'sw3',       label:'Social Worker',                  kw:['social worker','amhp'],                                      loc:'',group:'Clinical', inc:SW2_INC, exc:SW2_EXC},
   {id:'data',      label:'Data Analyst',                  kw:DATA_KW,  loc:'',group:'Professional',inc:DATA_INC, exc:DATA_EXC},
   {id:'bi',        label:'BI Analyst',                    kw:BI_KW,    loc:'',group:'Professional',inc:BI_INC},
