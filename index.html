@@ -62,7 +62,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:#f0f4ff;color:#0f172a;f
 .t-salary{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
 .t-perm{background:#faf5ff;color:#6d28d9;border:1px solid #e9d5ff}
 .t-close{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}
-.job-actions{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex-shrink:0}
+.job-actions{display:flex;flex-direction:row;align-items:center;gap:8px;flex-shrink:0;margin-top:10px}
 .cp-btn{width:32px;height:32px;border:1.5px solid #e2e8f0;border-radius:8px;background:#f8fafc;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#94a3b8;transition:all .15s;font-size:13px}
 .cp-btn:hover{border-color:#3b82f6;color:#3b82f6;background:#eff6ff}
 .cp-btn.done{border-color:#22c55e;color:#22c55e;background:#f0fdf4}
@@ -240,15 +240,15 @@ function render(){
   el.querySelectorAll('.cp-btn').forEach(function(b){
     b.addEventListener('click',function(){
       navigator.clipboard.writeText(b.dataset.url).then(function(){
-        b.textContent='Copied!';b.style.background='#22c55e';b.style.color='#fff';b.style.borderColor='#22c55e';
-        setTimeout(function(){b.textContent='Copy Link';b.style.background='';b.style.color='';b.style.borderColor='';},2000);
+        b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>Copied!';b.style.background='#dcfce7';b.style.color='#16a34a';
+        setTimeout(function(){b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy Link';b.style.background='';b.style.color='';},2000);
       }).catch(function(){
         // Fallback for older browsers
         var ta=document.createElement('textarea');
         ta.value=b.dataset.url;document.body.appendChild(ta);ta.select();
         document.execCommand('copy');document.body.removeChild(ta);
-        b.textContent='Copied!';b.style.background='#22c55e';b.style.color='#fff';
-        setTimeout(function(){b.textContent='Copy Link';b.style.background='';b.style.color='';},2000);
+        b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>Copied!';b.style.background='#dcfce7';b.style.color='#16a34a';
+        setTimeout(function(){b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy Link';b.style.background='';b.style.color='';},2000);
       });
     });
   });
