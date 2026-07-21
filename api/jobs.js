@@ -81,8 +81,10 @@ function parseNhs(html) {
     const isFixedTerm = allBlockText.includes('fixed term') || allBlockText.includes('fixed-term');
     const isBand2Text = allBlockText.includes('band 2') || allBlockText.includes('band2');
 
-    // Skip immediately if block text reveals part time, fixed term or band 2
-    if (isPartTime || isFixedTerm || isBand2Text) continue;
+    // Skip immediately if block text reveals part time, fixed term, band 2 or internal
+    const isInternal = allBlockText.includes('internal only') || allBlockText.includes('*internal');
+    const isTermTime = allBlockText.includes('term time') || allBlockText.includes('term-time');
+    if (isPartTime || isFixedTerm || isBand2Text || isInternal || isTermTime) continue;
 
     jobs.push({
       id, title, organisation: org, location: loc,
@@ -211,7 +213,11 @@ function reject(job) {
   if (wp.includes('part-time'))    return true;
   if (t.includes('part time'))     return true;
   if (t.includes('part-time'))     return true;
+  if (t.includes('term time'))     return true;
+  if (t.includes('term-time'))     return true;
   if (wp.includes('flexible'))     return true;
+  if (wp.includes('term time'))    return true;
+  if (wp.includes('term-time'))    return true;
 
   // Internal only jobs - catch all formats
   if (t.includes('internal only'))  return true;
@@ -241,7 +247,7 @@ function applyFilters(jobs, cat) {
 
 // ── MAIN FETCH LOOP ───────────────────────────────────────────
 async function getCategoryJobs(cat) {
-  const ck = 'cat:' + cat.id + ':v25';
+  const ck = 'cat:' + cat.id + ':v26';
   const hit = CACHE.get(ck);
   if (hit && Date.now() - hit.at < TTL) return hit.v;
 
