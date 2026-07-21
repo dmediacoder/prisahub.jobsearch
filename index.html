@@ -107,7 +107,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:#f0f4ff;color:#0f172a;f
   <div class="top-bar">
     <div class="top-bar-row">
       <div><div class="page-title" id="ptitle">🏥 NHS Jobs</div><div class="page-sub" id="psub">Live permanent NHS vacancies</div></div>
-      <div class="search-wrap"><span class="s-icon">🔍</span><input class="s-input" id="s-input" placeholder="Search job title, location..."/></div>
+      <div class="search-wrap"><span class="s-icon">⌕</span><input class="s-input" id="s-input" placeholder="Search job title, location..."/></div>
     </div>
   </div>
   <div class="stats-strip">
@@ -124,35 +124,35 @@ body{font-family:'Inter',system-ui,sans-serif;background:#f0f4ff;color:#0f172a;f
 </div>
 <script>
 var CATS=[
-  {id:'admin-out', label:'Admin Outside London',          icon:'📋',g:'Admin'},
-  {id:'admin-lon', label:'Admin in London',               icon:'📋',g:'Admin'},
-  {id:'sw-out',    label:'Support Worker Outside London', icon:'🤝',g:'Support Worker'},
-  {id:'sw-lon',    label:'Support Worker in London',      icon:'🤝',g:'Support Worker'},
-  {id:'sw-wm',     label:'Support Worker West Midlands',  icon:'🤝',g:'Support Worker'},
-  {id:'sw-wales',  label:'Support Worker in Wales',       icon:'🤝',g:'Support Worker'},
-  {id:'sw-manc',   label:'Support Worker Manchester',     icon:'🤝',g:'Support Worker'},
-  {id:'sw-wy',     label:'Support Worker W Yorkshire',    icon:'🤝',g:'Support Worker'},
-  {id:'sw-ey',     label:'Support Worker E Yorkshire',    icon:'🤝',g:'Support Worker'},
-  {id:'nurse',     label:'Staff Nurse',                   icon:'👩‍⚕️',g:'Nursing'},
-  {id:'mh-nurse',  label:'Mental Health Nurse',           icon:'🧠',g:'Nursing'},
-  {id:'res-nurse', label:'Research Nurse',                icon:'🔭',g:'Nursing'},
-  {id:'fellow',    label:'Clinical Fellow',               icon:'🩺',g:'Clinical'},
-  {id:'coder',     label:'Clinical Coder',                icon:'🏷️',g:'Clinical'},
-  {id:'diet',      label:'Dietician',                     icon:'🥗',g:'Clinical'},
-  {id:'micro',     label:'Microbiology',                  icon:'🔬',g:'Clinical'},
-  {id:'phleb',     label:'Phlebotomist Leader',           icon:'💉',g:'Clinical'},
-  {id:'res-asst',  label:'Research Assistant',            icon:'📊',g:'Clinical'},
-  {id:'sw3',       label:'Social Worker',                 icon:'🫂',g:'Clinical'},
-  {id:'data',      label:'Data Analyst',                  icon:'📈',g:'Professional'},
-  {id:'bi',        label:'BI Analyst',                    icon:'🧩',g:'Professional'},
-  {id:'fin',       label:'Finance',                       icon:'💰',g:'Professional'},
-  {id:'hr',        label:'HR',                            icon:'👥',g:'Professional'},
-  {id:'it',        label:'IT / Engineering',              icon:'⚙️',g:'Professional'},
-  {id:'pm',        label:'Project Manager',               icon:'📌',g:'Professional'},
-  {id:'ba',        label:'Business Analyst',              icon:'📉',g:'Professional'},
-  {id:'log',       label:'Logistics',                     icon:'🚚',g:'Professional'},
-  {id:'coord',     label:'Coordinator',                   icon:'🗂️',g:'Professional'},
-  {id:'est',       label:'Estates',                       icon:'🏗️',g:'Professional'},
+  {id:'admin-out', label:'Admin Outside London',          icon:'≡',g:'Admin'},
+  {id:'admin-lon', label:'Admin in London',               icon:'≡',g:'Admin'},
+  {id:'sw-out',    label:'Support Worker Outside London', icon:'✦',g:'Support Worker'},
+  {id:'sw-lon',    label:'Support Worker in London',      icon:'✦',g:'Support Worker'},
+  {id:'sw-wm',     label:'Support Worker West Midlands',  icon:'✦',g:'Support Worker'},
+  {id:'sw-wales',  label:'Support Worker in Wales',       icon:'✦',g:'Support Worker'},
+  {id:'sw-manc',   label:'Support Worker Manchester',     icon:'✦',g:'Support Worker'},
+  {id:'sw-wy',     label:'Support Worker W Yorkshire',    icon:'✦',g:'Support Worker'},
+  {id:'sw-ey',     label:'Support Worker E Yorkshire',    icon:'✦',g:'Support Worker'},
+  {id:'nurse',     label:'Staff Nurse',                   icon:'✚',g:'Nursing'},
+  {id:'mh-nurse',  label:'Mental Health Nurse',           icon:'✚',g:'Nursing'},
+  {id:'res-nurse', label:'Research Nurse',                icon:'✚',g:'Nursing'},
+  {id:'fellow',    label:'Clinical Fellow',               icon:'✚',g:'Clinical'},
+  {id:'coder',     label:'Clinical Coder',                icon:'#',g:'Clinical'},
+  {id:'diet',      label:'Dietician',                     icon:'✚',g:'Clinical'},
+  {id:'micro',     label:'Microbiology',                  icon:'⬡',g:'Clinical'},
+  {id:'phleb',     label:'Phlebotomist Leader',           icon:'✚',g:'Clinical'},
+  {id:'res-asst',  label:'Research Assistant',            icon:'◈',g:'Clinical'},
+  {id:'sw3',       label:'Social Worker',                 icon:'✦',g:'Clinical'},
+  {id:'data',      label:'Data Analyst',                  icon:'◈',g:'Professional'},
+  {id:'bi',        label:'BI Analyst',                    icon:'◈',g:'Professional'},
+  {id:'fin',       label:'Finance',                       icon:'£',g:'Professional'},
+  {id:'hr',        label:'HR',                            icon:'✦',g:'Professional'},
+  {id:'it',        label:'IT / Engineering',              icon:'⚙',g:'Professional'},
+  {id:'pm',        label:'Project Manager',               icon:'◆',g:'Professional'},
+  {id:'ba',        label:'Business Analyst',              icon:'◈',g:'Professional'},
+  {id:'log',       label:'Logistics',                     icon:'▶',g:'Professional'},
+  {id:'coord',     label:'Coordinator',                   icon:'≡',g:'Professional'},
+  {id:'est',       label:'Estates',                       icon:'◧',g:'Professional'},
 ];
 
 var _cat='admin-out',_kw='',_pg=1,_pgs=1,_tot=0,_jobs=[],_tmr=null,_busy=false;
@@ -206,7 +206,7 @@ function sidebar(){
   });
 }
 
-var EM=['🏥','🏨','🏛','🔬','💊','🩺','🧬','💉','🧪','🫀','🫁','🩻','🧠','🦷','🏃','⚕️','🎓','📋','🔭','🏋️'];
+var EM=['🏥','🏨','🏛','🔬','💊','🩺','🧬','💉','🧪','🫀','🫁','🩻','🧠','🦷','🏃','+','🎓','📋','🔭','🏋️'];
 
 function render(){
   var el=document.getElementById('jlist');
@@ -240,8 +240,8 @@ function render(){
   el.querySelectorAll('.cp-btn').forEach(function(b){
     b.addEventListener('click',function(){
       navigator.clipboard.writeText(b.dataset.url).then(function(){
-        b.textContent='✅';b.classList.add('done');
-        setTimeout(function(){b.textContent='📋';b.classList.remove('done');},2000);
+        b.textContent='✓';b.classList.add('done');
+        setTimeout(function(){b.textContent='⊡';b.classList.remove('done');},2000);
       });
     });
   });
