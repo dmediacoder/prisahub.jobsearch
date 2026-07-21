@@ -190,16 +190,7 @@ function reject(job) {
   if (all.includes('afc band 2'))   return true;
   if (all.includes('afc: band 2'))  return true;
   if (job.band !== undefined && job.band <= 2) return true;
-  // Band 2 max salary is £27,596 - reject jobs where max salary is below Band 3
-  // This catches Band 2 jobs that don't mention band in title
-  if (job.salary) {
-    const salNums = job.salary.match(/£([\d,]+)/g);
-    if (salNums && salNums.length > 0) {
-      const amounts = salNums.map(s => parseInt(s.replace(/[£,]/g,'')));
-      const maxSal = Math.max(...amounts);
-      if (maxSal <= 27596) return true; // Band 2 max is £27,596 - reject
-    }
-  }
+  // Band 2 blocked at source via payBand parameter
 
   // ── NOT PERMANENT ────────────────────────────────────────────
   if (ct && !ct.includes('permanent')) return true;
@@ -260,7 +251,7 @@ function applyFilters(jobs, cat) {
 
 // ── MAIN FETCH LOOP ───────────────────────────────────────────
 async function getCategoryJobs(cat) {
-  const ck = 'cat:' + cat.id + ':v33';
+  const ck = 'cat:' + cat.id + ':v34';
   const hit = CACHE.get(ck);
   if (hit && Date.now() - hit.at < TTL) return hit.v;
 
