@@ -251,7 +251,7 @@ function applyFilters(jobs, cat) {
 
 // ── MAIN FETCH LOOP ───────────────────────────────────────────
 async function getCategoryJobs(cat) {
-  const ck = 'cat:' + cat.id + ':v36';
+  const ck = 'cat:' + cat.id + ':v38';
   const hit = CACHE.get(ck);
   if (hit && Date.now() - hit.at < TTL) return hit.v;
 
@@ -728,7 +728,7 @@ const CATS = [
   {id:'nurse',     label:'Staff Nurse',                   kw:['staff nurse','registered nurse'],                             loc:'',minBand:5,maxBand:5,sal:29970,group:'Nursing',  inc:NURSE_INC,exc:NURSE_EXC},
   {id:'mh-nurse',  label:'Mental Health Nurse',           kw:['mental health nurse','psychiatric nurse','rmn'],              loc:'',group:'Nursing',  inc:MH_INC,  exc:MH_EXC},
   {id:'res-nurse', label:'Research Nurse',                kw:['research nurse','clinical research nurse'],                   loc:'',group:'Nursing',  inc:RN_INC},
-  {id:'fellow',    label:'Clinical Fellow',               kw:['clinical fellow','foundation doctor','trust doctor','fy1','fy2','st1','st2','st3'], loc:'',group:'Clinical', inc:FEL_INC, exc:['senior clinical fellow','consultant','registrar','specialist','associate specialist','sas doctor','specialty registrar']},
+  {id:'fellow',    label:'Clinical Fellow',               kw:['clinical fellow','junior clinical fellow','trust doctor','foundation year'], loc:'',group:'Clinical', inc:FEL_INC, exc:['senior clinical fellow','consultant','registrar','specialist','associate specialist','sas doctor','specialty doctor','specialty registrar','anaesthetics','surgery','medicine']},
   {id:'coder',     label:'Clinical Coder',                kw:['clinical coder','clinical coding'],                           loc:'',group:'Clinical', inc:COD_INC},
   {id:'diet',      label:'Dietician',                     kw:['dietitian','dietician'],                                      loc:'',group:'Clinical', inc:DIET_INC},
   {id:'micro',     label:'Microbiology',                   kw:['microbiology','microbiologist'],                              loc:'',group:'Clinical', inc:MICRO_INC},
