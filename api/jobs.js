@@ -139,18 +139,14 @@ async function fetchPage(kw, loc, page, sal, ft, minBand) {
     keyword:      kw,
     language:     'en',
     contractType: 'Permanent',
-    payScheme:    'AfC',        // NHS AfC only — blocks all private employers
   });
-  if (loc)      p.set('location',       loc);
-  if (page > 1) p.set('page',           String(page));
-  if (sal > 0)  p.set('salaryFrom',     String(sal));
-  if (ft)       p.set('workingPattern', 'fullTime');
-  // Add NHS band filters at source - blocks wrong bands before they reach us
+  if (loc)      p.set('location',    loc);
+  if (page > 1) p.set('page',        String(page));
+  if (ft)       p.set('workingPattern', 'full-time');
+  // Band filter at source - correct NHS Jobs payBand parameter
   if (minBand && minBand >= 3) {
-    const bands = ['BAND_03','BAND_04','BAND_05','BAND_06','BAND_07','BAND_08A','BAND_08B','BAND_08C','BAND_08D','BAND_09'];
-    for (const b of bands.slice(minBand - 3)) {
-      p.append('nhsPayGradeCode', b);
-    }
+    const bands = ['BAND_3','BAND_4','BAND_5','BAND_6','BAND_7','BAND_8A','BAND_8B','BAND_8C','BAND_8D','BAND_9'];
+    p.set('payBand', bands.slice(minBand - 3).join(','));
   }
 
   try {
@@ -264,7 +260,7 @@ function applyFilters(jobs, cat) {
 
 // ── MAIN FETCH LOOP ───────────────────────────────────────────
 async function getCategoryJobs(cat) {
-  const ck = 'cat:' + cat.id + ':v31';
+  const ck = 'cat:' + cat.id + ':v33';
   const hit = CACHE.get(ck);
   if (hit && Date.now() - hit.at < TTL) return hit.v;
 
